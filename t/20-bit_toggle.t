@@ -1,7 +1,7 @@
 use warnings;
 use strict;
 
-use Bit::Manip qw(:all);
+use Bit::Manip::PP qw(:all);
 use Test::More;
 
 {   # 255

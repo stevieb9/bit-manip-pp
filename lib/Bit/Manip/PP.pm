@@ -48,30 +48,65 @@ sub bit_count {
 }
 sub bit_mask {
     my ($bits, $lsb) = @_;
-    return _bit_mask($bits, $lsb);
+    return (2 ** $bits - 1) << $lsb;
 }
 sub bit_get {
     my ($data, $msb, $lsb) = @_;
 
     $lsb = 0 if ! defined $lsb;
 
-    _bit_get($data, $msb, $lsb);
+    _check_msb($msb);
+    $msb++; # need to start from 1 here
+
+    _check_lsb($lsb, $msb);
+
+    return ($data & (2**$msb-1)) >> $lsb;
 }
 sub bit_set {
     my ($data, $lsb, $value) = @_;
-    return _bit_set($data, $lsb, $value);
+
+    _check_value($value);
+
+    my $value_bits = bit_count($value, 0);
+    my $mask = bit_mask($value_bits, $lsb);
+
+    $data = ($data & ~($mask)) | ($value << $lsb);
+
+    return $data;
 }
 sub bit_toggle {
     my ($data, $bit) = @_;
-    return _bit_toggle($data, $bit);
+    return $data ^= 1 << $bit;
 }
 sub bit_on {
     my ($data, $bit) = @_;
-    return _bit_toggle($data, $bit);
+    return $data |= 1 << $bit
 }
 sub bit_off {
     my ($data, $bit) = @_;
-    return _bit_toggle($data, $bit);
+    return $data &= ~(1 << $bit);
+}
+sub _check_msb {
+    my ($msb) = @_;
+    if ($msb < 0){
+        die("\$msb param can not be negative\n");
+    }
+}
+sub _check_lsb {
+    my ($lsb, $msb) = @_;
+
+    if ($lsb < 0){
+        die "\$lsb param can't be negative\n";
+    }
+    if (($lsb + 1) >= $msb){
+        die "\$lsb param must be less than \$msb\n";
+    }
+}
+sub _check_value {
+    my ($val) = @_;
+    if ($val < 0){
+        die "\$value param must be zero or greater\n";
+    }
 }
 sub _vim{};
 
@@ -127,8 +162,8 @@ Currently, up to 32-bit integers are supported.
 
 =head1 EXPORT_OK
 
-Use the C<:all> tag (eg: C<use Bit::Manip::PP qw(:all);>) to import the following
-functions into your namespace, or pick and choose individually:
+Use the C<:all> tag (eg: C<use Bit::Manip::PP qw(:all);>) to import the
+following functions into your namespace, or pick and choose individually:
 
     bit_bin
     bit_count 

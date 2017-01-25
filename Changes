@@ -3,5 +3,14 @@ Revision history for Bit-Manip-PP
 0.01    2017-01-25
         - First version, released on an unsuspecting world
         - ported bit_count()
+        - ported bit_mask()
+        - bit_bin() ported
+        - ported __check_lsb(), __check_msb(), __check_value()
+        - ported bit_get()
+        - ported bit_set()
+        - ported bit_toggle()
+        - ported bit_on()
+        - ported bit_off()
+        -
 
 

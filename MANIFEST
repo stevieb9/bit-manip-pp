@@ -1,10 +1,8 @@
-.travis.yml-norun
 Changes
-lib/Bit/Manip.pm
+lib/Bit/Manip/PP.pm
 Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP
-Manip.xs
 README
 t/00-load.t
 t/05-bit_count.t

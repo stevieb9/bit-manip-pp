@@ -1,7 +1,7 @@
 use warnings;
 use strict;
 
-use Bit::Manip qw(:all);
+use Bit::Manip::PP qw(:all);
 use Test::More;
 
 is bin(bit_set(8, 0, 0b1)), '1001', "8, 0, 1 ok";
