@@ -3,10 +3,7 @@ package Bit::Manip::PP;
 use warnings;
 use strict;
 
-our $VERSION = '1.00';
-
-require XSLoader;
-XSLoader::load('Bit::Manip::PP', $VERSION);
+our $VERSION = '0.01';
 
 use Exporter qw(import);
 
@@ -36,8 +33,18 @@ sub bit_count {
     }
 
     $set = 0 if ! defined $set;
+    my $bits = sprintf("%b", $n);
+    my $bit_count;
 
-    return _bit_count($n, $set);
+    if ($set){
+        my @bits = grep {$_ == 1} split //, $bits;
+        $bit_count = scalar @bits;
+    }
+    else {
+        $bit_count = length($bits);
+    }
+
+    return $bit_count;
 }
 sub bit_mask {
     my ($bits, $lsb) = @_;

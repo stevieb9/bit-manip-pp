@@ -4,7 +4,7 @@ use warnings FATAL => 'all';
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME             => 'Bit::Manip',
+    NAME             => 'Bit::Manip::PP',
     AUTHOR           => q{Steve Bertrand <steveb@cpan.org>},
     VERSION_FROM     => 'lib/Bit/Manip/PP.pm',
     ABSTRACT_FROM    => 'lib/Bit/Manip/PP.pm',

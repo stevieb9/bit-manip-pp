@@ -1,5 +1,7 @@
 Revision history for Bit-Manip-PP
 
 0.01    2017-01-25
-        First version, released on an unsuspecting world.
+        - First version, released on an unsuspecting world
+        - ported bit_count()
+
 
