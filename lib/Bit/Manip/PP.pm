@@ -63,11 +63,18 @@ sub bit_get {
     return ($data & (2**$msb-1)) >> $lsb;
 }
 sub bit_set {
-    my ($data, $lsb, $value) = @_;
+    my ($data, $lsb, $bits, $value) = @_;
+
+    if (@_ != 4){
+        die "bit_set() requires four params\n";
+    }
 
     _check_value($value);
 
     my $value_bits = bit_count($value, 0);
+    if ($value_bits != $bits){
+        $value_bits = $bits;
+    }
     my $mask = bit_mask($value_bits, $lsb);
 
     $data = ($data & ~($mask)) | ($value << $lsb);
@@ -142,7 +149,7 @@ Bit::Manip::PP - Pure Perl functions to simplify bit string manipulation
 
     $b = 0b10000000;
 
-    $b = bit_set($b, 2, 0b101); # 10010100
+    $b = bit_set($b, 2, 3, 0b101); # 10010100
 
     my ($num_bits, $lsb) = (3, 2);
 
@@ -252,6 +259,11 @@ Mandatory: Integer, the least significant bit (rightmost) in the bit range you
 want to manipulate. For example, if you wanted to set a new value for bits
 C<7-5>, you'd send in C<5>.
 
+    $bits
+
+Mandatory: Integer, the number of bits you plan on setting. This is so that any
+leading zeros are honoured.
+
     $value
 
 Mandatory: Integer, the value that you want to change the specified bits to.
@@ -275,7 +287,7 @@ C<6-4> to C<111> in binary (always start from bit 0, not 1):
 
 Code:
 
-    my $x = bit_set($data, 4, 0b111); # (0x07, or 7)
+    my $x = bit_set($data, 4, 3, 0b111); # (0x07, or 7)
     printf("%b\n", $x); # prints 11110000
 
 =head2 bit_toggle
