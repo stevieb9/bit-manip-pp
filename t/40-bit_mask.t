@@ -1,6 +1,5 @@
 use warnings;
 use strict;
-use feature 'say';
 
 use Bit::Manip::PP qw(:all);
 use Test::More;
@@ -15,7 +14,6 @@ my $c = 0;
 
     for (0..7){
         is bit_mask($_, $lsb), $d[$c], "mask for $_ on $lsb ok";
-        # say bit_bin(bit_mask($_, $lsb));
         $c++;
     }
 }
@@ -24,7 +22,6 @@ my $c = 0;
     my $lsb = 4;
 
     for (0..4){
-        # say bit_bin(bit_mask($_, $lsb));
         is bit_mask($_, $lsb), $d[$c], "mask for $_ on $lsb ok";
         $c++;
     }
@@ -35,7 +32,6 @@ my $c = 0;
     my $lsb = 2;
 
     for (0..2){
-        # say bit_bin(bit_mask($_, $lsb));
         is bit_mask($_, $lsb), $d[$c], "mask for $_ on $lsb ok";
         $c++;
     }

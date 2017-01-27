@@ -1,5 +1,9 @@
 Revision history for Bit-Manip-PP
 
+1.01    2017-01-27
+        - removed erroneous "use feature 'say';" from t/40, as it was causing
+          CPAN Testers to fail on < v5.10.x
+
 1.00    2017-01-25
         - fixed issue in bit_set() that leading zeroes in a binary string
           weren't populating properly
