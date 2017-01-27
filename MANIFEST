@@ -1,4 +1,5 @@
 Changes
+examples/c_vs_pp.pl
 lib/Bit/Manip/PP.pm
 Makefile.PL
 MANIFEST			This list of files
