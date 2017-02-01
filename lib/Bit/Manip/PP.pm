@@ -12,7 +12,8 @@ our @EXPORT_OK = qw(
     bit_count 
     bit_mask
     bit_get 
-    bit_set 
+    bit_set
+    bit_clr
     bit_toggle
     bit_on
     bit_off
@@ -32,13 +33,11 @@ sub bit_count {
         die "bit_count() requires an integer param\n";
     }
 
-    $set = 0 if ! defined $set;
     my $bits = sprintf("%b", $n);
     my $bit_count;
 
     if ($set){
-        my @bits = grep {$_ == 1} split //, $bits;
-        $bit_count = scalar @bits;
+        $bit_count = $bits =~ tr/1/1/;
     }
     else {
         $bit_count = length($bits);
@@ -80,6 +79,10 @@ sub bit_set {
     $data = ($data & ~($mask)) | ($value << $lsb);
 
     return $data;
+}
+sub bit_clr {
+    my ($data, $lsb, $nbits) = @_;
+    return bit_set($data, $lsb, $nbits, 0);
 }
 sub bit_toggle {
     my ($data, $bit) = @_;
@@ -151,11 +154,22 @@ Bit::Manip::PP - Pure Perl functions to simplify bit string manipulation
 
     $b = bit_set($b, 2, 3, 0b101); # 10010100
 
-    my ($num_bits, $lsb) = (3, 2);
+    # clear some bits
 
+    $b = 0b11111111;
+
+    $num_bits = 3;
+    $lsb = 3;
+
+    $b = bit_clr($b, $lsb, $num_bits); # 11000111
+
+    # helpers
+
+    my ($num_bits, $lsb) = (3, 2);
     print bit_mask($num_bits, $lsb); # 28, or 11100
 
     print bit_bin(255); # 11111111 (same as printf("%b", 255);)
+
       
 =head1 DESCRIPTION
 
@@ -176,7 +190,8 @@ following functions into your namespace, or pick and choose individually:
     bit_count 
     bit_mask
     bit_get 
-    bit_set 
+    bit_set
+    bit_clr
     bit_toggle
     bit_on
     bit_off
@@ -289,6 +304,29 @@ Code:
 
     my $x = bit_set($data, 4, 3, 0b111); # (0x07, or 7)
     printf("%b\n", $x); # prints 11110000
+
+=head2 bit_clr
+
+Clear (unset to 0) specific bits in the bit string.
+
+Parameters:
+
+    $data
+
+Mandatory: Integer, the bit string you want to manipulate bits in.
+
+    $lsb
+
+Mandatory: Integer, the least significant bit (rightmost) in the bit range you
+want to manipulate. For example, if you wanted to clear bits C<7-5>, you'd send
+in C<5>.
+
+    $nbits
+
+Mandatory: Integer, the number of bits you're wanting to clear, starting from
+the C<$lsb> bit, and clearing the number of bits to the left.
+
+Returns the modified bit string.
 
 =head2 bit_toggle
 

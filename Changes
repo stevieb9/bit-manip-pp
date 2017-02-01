@@ -1,5 +1,11 @@
 Revision history for Bit-Manip-PP
 
+1.02 UNREL
+        - added bit_clr(), clears a set of bits
+        - removed erroneous call to 'defined' (part of #2)
+        - performance enhancement (change grep() to a check with tr//)
+          (closes #2) (thanks to Larry Leszcynski for pointing out both issues)
+
 1.01    2017-01-27
         - removed erroneous "use feature 'say';" from t/40, as it was causing
           CPAN Testers to fail on < v5.10.x
