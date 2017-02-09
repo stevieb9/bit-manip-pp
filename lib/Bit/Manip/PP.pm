@@ -3,7 +3,7 @@ package Bit::Manip::PP;
 use warnings;
 use strict;
 
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 
 use Exporter qw(import);
 
