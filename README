@@ -64,51 +64,17 @@ EXPORT_OK
     following functions into your namespace, or pick and choose
     individually:
 
-        bit_bin
-        bit_count 
-        bit_mask
         bit_get 
         bit_set
         bit_clr
         bit_toggle
         bit_on
         bit_off
+        bit_bin
+        bit_count
+        bit_mask
 
 FUNCTIONS
-
- bit_bin
-
-    Returns the binary representation of a number as a string of ones and
-    zeroes.
-
-    Parameters:
-
-        $data
-
-    Mandatory: Integer, the number you want to convert.
-
- bit_count
-
-    Returns either the total count of bits in a number, or just the number
-    of set bits (if the $set, parameter is sent in and is true).
-
-    Parameters:
-
-        $num
-
-    Mandatory: Unsigned integer, the number to retrieve the total number of
-    bits for. For example, if you send in 15, the total number of bits
-    would be 4, likewise, for 255, the number of bits would be 16.
-
-        $set
-
-    Optional: Integer. If this is sent and is a true value, we'll return
-    the number of *set* bits only. For example, for 255, the set bits will
-    be 8 (ie. all of them), and for 8, the return will be 1 (as only the
-    MSB is set out of all four of the total).
-
-    Return: Integer, the number of bits that make up the number if $set is
-    0, and the number of set bits (1's) if $set is true.
 
  bit_get
 
@@ -276,6 +242,40 @@ FUNCTIONS
     change.
 
     Return: Integer, the bit mask ready to be applied.
+
+ bit_bin
+
+    Returns the binary representation of a number as a string of ones and
+    zeroes.
+
+    Parameters:
+
+        $data
+
+    Mandatory: Integer, the number you want to convert.
+
+ bit_count
+
+    Returns either the total count of bits in a number, or just the number
+    of set bits (if the $set, parameter is sent in and is true).
+
+    Parameters:
+
+        $num
+
+    Mandatory: Unsigned integer, the number to retrieve the total number of
+    bits for. For example, if you send in 15, the total number of bits
+    would be 4, likewise, for 255, the number of bits would be 16.
+
+        $set
+
+    Optional: Integer. If this is sent and is a true value, we'll return
+    the number of *set* bits only. For example, for 255, the set bits will
+    be 8 (ie. all of them), and for 8, the return will be 1 (as only the
+    MSB is set out of all four of the total).
+
+    Return: Integer, the number of bits that make up the number if $set is
+    0, and the number of set bits (1's) if $set is true.
 
 AUTHOR
 
