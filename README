@@ -63,6 +63,10 @@ DESCRIPTION
     shifting) etc. Particularly useful for embedded programming and writing
     device communication software.
 
+    In functions that modify your data, you can pass your data by value and
+    get the modified value returned, or pass it in as a scalar reference
+    and we'll modify the data inline.
+
     Currently, up to 32-bit integers are supported.
 
 EXPORT_OK
