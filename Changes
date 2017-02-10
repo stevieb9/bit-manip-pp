@@ -8,6 +8,9 @@ Revision history for Bit-Manip-PP
           If passed-by-value, we still return the modified data to keep
           consistent with previous functionality. If passed-by-reference, we'll
           modify $data directly by reference, and return 0 upon success
+        - added Travis CI and Coveralls integration, added tests to reach 100%
+          coverage
+
 
 1.03    2017-02-10
         - instead of importing "import" from Exporter, we now just use it as a

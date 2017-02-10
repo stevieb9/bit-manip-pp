@@ -47,6 +47,21 @@ is bin(bit_set(32768, 7, 3, 0b111)), '1000001110000000', "32768, 7, 0b111 ok";
 
 is bin(bit_set(7, 0, 3, 0b011)), '11', "leading zero set ok";
 
+{ # bad number of params
+
+    my $ok;
+
+    $ok = eval {bit_set(7, 0, 0, 0, 0); 1; };
+    is $ok, undef, "bit_set() with more than 4 params dies";
+    like $@, qr/requires four params/, "...with ok error";
+
+    $ok = undef;
+
+    $ok = eval {bit_set(7, 0, 0); 1; };
+    is $ok, undef, "bit_set() with less than 4 params dies";
+    like $@, qr/requires four params/, "...with ok error";
+}
+
 sub bin {
     return sprintf "%b", $_[0];
 }
@@ -83,5 +98,6 @@ sub bin {
         $c++;
     }
 }
+
 done_testing();
 

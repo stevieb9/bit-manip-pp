@@ -154,6 +154,7 @@ sub _check_lsb {
     }
 }
 sub _check_value {
+    shift if @_ > 1;
     my ($val) = @_;
     if ($val < 0){
         die "\$value param must be zero or greater\n";

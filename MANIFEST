@@ -16,6 +16,7 @@ t/35-bit-bin.t
 t/40-bit_mask.t
 t/45-bit_clr.t
 t/50-_ref.t
+t/55-_check_value.t
 t/manifest.t
 t/pod-coverage.t
 t/pod.t
