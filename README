@@ -100,7 +100,7 @@ FUNCTIONS
     of bits to collect the value for (starting at 0 from the right). A
     value of 0 means return the value from $msb through to the very end of
     the bit string. A value of 1 will capture from $msb through to bit 1
-    (second from right). This value must be lower than $msb.
+    (second from right). This value must be equal to or lower than $msb.
 
     Return: Integer, the modified $data param.
 

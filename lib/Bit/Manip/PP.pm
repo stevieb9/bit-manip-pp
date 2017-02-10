@@ -5,7 +5,8 @@ use strict;
 
 our $VERSION = '1.03';
 
-use Exporter qw(import);
+use Exporter;
+our @ISA = qw(Exporter);
 
 our @EXPORT_OK = qw(
     bit_get
@@ -221,7 +222,7 @@ Optional: Integer, the Least Significant Bit (rightmost) of the group of bits to
 collect the value for (starting at 0 from the right). A value of C<0> means
 return the value from C<$msb> through to the very end of the bit string. A
 value of C<1> will capture from C<$msb> through to bit C<1> (second from
-right). This value must be lower than C<$msb>.
+right). This value must be equal to or lower than C<$msb>.
 
 Return: Integer, the modified C<$data> param.
 
