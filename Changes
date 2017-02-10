@@ -1,16 +1,16 @@
 Revision history for Bit-Manip-PP
 
-1.04 UNREL
-        - added _ref() and tests for it. This is used for allowing scalar refs
-          to be sent in, in place of a scalar for $data
+1.04    2017-02-10
         - bit_set(), bit_clr(), bit_toggle(), bit_on() and bit_off() can now all
           accept the $data parameter as a value, or a reference to the scalar.
           If passed-by-value, we still return the modified data to keep
           consistent with previous functionality. If passed-by-reference, we'll
           modify $data directly by reference, and return 0 upon success
+        - added _ref() and tests for it. This is used for allowing scalar refs
+          to be sent in, in place of a scalar for $data
         - added Travis CI and Coveralls integration, added tests to reach 100%
           coverage
-
+        - correct an erroneous include of Bit::Manip in t/45-bit_clr.t
 
 1.03    2017-02-10
         - instead of importing "import" from Exporter, we now just use it as a
