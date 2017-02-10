@@ -3,7 +3,7 @@ package Bit::Manip::PP;
 use warnings;
 use strict;
 
-our $VERSION = '1.03';
+our $VERSION = '1.04';
 
 use Exporter;
 our @ISA = qw(Exporter);
