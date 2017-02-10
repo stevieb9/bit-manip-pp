@@ -168,6 +168,10 @@ __END__
 
 Bit::Manip::PP - Pure Perl functions to simplify bit string manipulation
 
+=for html
+<a href="http://travis-ci.org/stevieb9/bit-manip-pp"><img src="https://secure.travis-ci.org/stevieb9/bit-manip-pp.png"/>
+<a href='https://coveralls.io/github/stevieb9/bit-manip-pp?branch=master'><img src='https://coveralls.io/repos/stevieb9/bit-manip-pp/badge.svg?branch=master&service=github' alt='Coverage Status' /></a>
+
 =head1 SYNOPSIS
 
     use Bit::Manip::PP qw(:all);
