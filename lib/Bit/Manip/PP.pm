@@ -23,6 +23,20 @@ our @EXPORT_OK = qw(
 our %EXPORT_TAGS;
 $EXPORT_TAGS{all} = [@EXPORT_OK];
 
+sub _ref {
+    shift if @_ == 2;
+    if ($_[0] !~ /^\d+$/ && ref $_[0] ne 'SCALAR'){
+        die "your data must either be an integer or a SCALAR reference\n";
+    }
+
+    if (ref $_[0]){
+        if (${ $_[0] } !~ /^\d+/){
+            die "data reference must contain only an integer\n";
+        }
+        return 1;
+    }
+    return 0;
+}
 sub bit_bin {
     my ($data) = @_;
     return sprintf("%b", $data);
@@ -77,9 +91,14 @@ sub bit_set {
     }
     my $mask = bit_mask($value_bits, $lsb);
 
-    $data = ($data & ~($mask)) | ($value << $lsb);
-
-    return $data;
+    if (_ref($data)){
+        $$data = ($$data & ~($mask)) | ($value << $lsb);
+        return 0;
+    }
+    else {
+        $data = ($data & ~($mask)) | ($value << $lsb);
+        return $data;
+    }
 }
 sub bit_clr {
     my ($data, $lsb, $nbits) = @_;
@@ -87,15 +106,36 @@ sub bit_clr {
 }
 sub bit_toggle {
     my ($data, $bit) = @_;
-    return $data ^= 1 << $bit;
+
+    if (_ref($data)){
+        $$data ^= 1 << $bit;
+        return 0;
+    }
+    else {
+        return $data ^= 1 << $bit;
+    }
 }
 sub bit_on {
     my ($data, $bit) = @_;
-    return $data |= 1 << $bit
+
+    if (_ref($data)){
+        $$data |= 1 << $bit;
+        return 0;
+    }
+    else {
+        return $data |= 1 << $bit;
+    }
 }
 sub bit_off {
     my ($data, $bit) = @_;
-    return $data &= ~(1 << $bit);
+
+    if (_ref($data)){
+        $$data &= ~(1 << $bit);
+        return 0;
+    }
+    else {
+        return $data &= ~(1 << $bit);
+    }
 }
 sub _check_msb {
     my ($msb) = @_;
@@ -137,9 +177,14 @@ Bit::Manip::PP - Pure Perl functions to simplify bit string manipulation
 
     $b = bit_toggle($b, 4); # 10010000
     $b = bit_toggle($b, 4); # 10000000
-    
+
+    bit_toggle(\$b, 4); # same as above, but with a reference
+
     $b = bit_off($b, 7);    # 0 
     $b = bit_on($b, 7);     # 10000000 
+
+    bit_off(\$b, 7);
+    bit_on(\$b, 7);
 
     # get the value of a range of bits...
     # in this case, we'll print the value of bits 4-3
@@ -155,6 +200,8 @@ Bit::Manip::PP - Pure Perl functions to simplify bit string manipulation
 
     $b = bit_set($b, 2, 3, 0b101); # 10010100
 
+    bit_set(\$b, 2, 3, 0b101); # reference
+
     # clear some bits
 
     $b = 0b11111111;
@@ -164,6 +211,8 @@ Bit::Manip::PP - Pure Perl functions to simplify bit string manipulation
 
     $b = bit_clr($b, $lsb, $num_bits); # 11000111
 
+    bit_clr(\$b, $lsb, $num_bits); # reference
+
     # helpers
 
     my ($num_bits, $lsb) = (3, 2);
@@ -171,7 +220,7 @@ Bit::Manip::PP - Pure Perl functions to simplify bit string manipulation
 
     print bit_bin(255); # 11111111 (same as printf("%b", 255);)
 
-      
+
 =head1 DESCRIPTION
 
 This is the Pure Perl version of the XS-based L<Bit::Manip> distribution.
@@ -234,7 +283,9 @@ Parameters:
 
     $data
 
-Mandatory: Integer, the bit string you want to manipulate bits in.
+Mandatory: Integer, the bit string you want to manipulate bits in. Optionally,
+send in a reference to the scalar, and we'll work directly on it instead of
+passing by value and getting the updated value returned.
 
     $lsb
 
@@ -252,7 +303,8 @@ leading zeros are honoured.
 Mandatory: Integer, the value that you want to change the specified bits to.
 Easiest if you send in a binary string (eg: C<0b1011> in Perl).
 
-Return: Integer, the modified C<$data> param.
+Return: Integer, the modified C<$data> param if <C$data> is passed in by value,
+or C<0> if passed in by reference.
 
 Example: 
 
@@ -281,7 +333,9 @@ Parameters:
 
     $data
 
-Mandatory: Integer, the bit string you want to manipulate bits in.
+Mandatory: Integer, the bit string you want to manipulate bits in. Optionally,
+send in a reference to the scalar, and we'll work directly on it instead of
+passing by value and getting the updated value returned.
 
     $lsb
 
@@ -294,7 +348,8 @@ in C<5>.
 Mandatory: Integer, the number of bits you're wanting to clear, starting from
 the C<$lsb> bit, and clearing the number of bits to the left.
 
-Returns the modified bit string.
+Return: Integer, the modified C<$data> param if <C$data> is passed in by value,
+or C<0> if passed in by reference.
 
 =head2 bit_toggle
 
@@ -304,14 +359,17 @@ Parameters:
 
     $data
 
-Mandatory: Integer, the number/bit string to toggle a bit in.
+Mandatory: Integer, the number/bit string to toggle a bit in. Optionally,
+send in a reference to the scalar, and we'll work directly on it instead of
+passing by value and getting the updated value returned.
 
     $bit
 
 Mandatory: Integer, the bit number counting from the right-most (LSB) bit
 starting from C<0>.
 
-Return: Integer, the modified C<$data> param.
+Return: Integer, the modified C<$data> param if <C$data> is passed in by value,
+or C<0> if passed in by reference.
 
 =head2 bit_on
 
@@ -321,14 +379,17 @@ Parameters:
 
     $data
 
-Mandatory: Integer, the number/bit string to toggle a bit in.
+Mandatory: Integer, the number/bit string to toggle a bit in. Optionally,
+send in a reference to the scalar, and we'll work directly on it instead of
+passing by value and getting the updated value returned.
 
     $bit
 
 Mandatory: Integer, the bit number counting from the right-most (LSB) bit
 starting from C<0>.
 
-Return: Integer, the modified C<$data> param.
+Return: Integer, the modified C<$data> param if <C$data> is passed in by value,
+or C<0> if passed in by reference.
 
 =head2 bit_off
 
@@ -338,14 +399,17 @@ Parameters:
 
     $data
 
-Mandatory: Integer, the number/bit string to toggle a bit in.
+Mandatory: Integer, the number/bit string to toggle a bit in. Optionally,
+send in a reference to the scalar, and we'll work directly on it instead of
+passing by value and getting the updated value returned.
 
     $bit
 
 Mandatory: Integer, the bit number counting from the right-most (LSB) bit
 starting from C<0>.
 
-Return: Integer, the modified C<$data> param.
+Return: Integer, the modified C<$data> param if <C$data> is passed in by value,
+or C<0> if passed in by reference.
 
 =head2 bit_mask
 

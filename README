@@ -12,9 +12,14 @@ SYNOPSIS
     
         $b = bit_toggle($b, 4); # 10010000
         $b = bit_toggle($b, 4); # 10000000
-        
+    
+        bit_toggle(\$b, 4); # same as above, but with a reference
+    
         $b = bit_off($b, 7);    # 0 
         $b = bit_on($b, 7);     # 10000000 
+    
+        bit_off(\$b, 7);
+        bit_on(\$b, 7);
     
         # get the value of a range of bits...
         # in this case, we'll print the value of bits 4-3
@@ -30,6 +35,8 @@ SYNOPSIS
     
         $b = bit_set($b, 2, 3, 0b101); # 10010100
     
+        bit_set(\$b, 2, 3, 0b101); # reference
+    
         # clear some bits
     
         $b = 0b11111111;
@@ -39,14 +46,14 @@ SYNOPSIS
     
         $b = bit_clr($b, $lsb, $num_bits); # 11000111
     
+        bit_clr(\$b, $lsb, $num_bits); # reference
+    
         # helpers
     
         my ($num_bits, $lsb) = (3, 2);
         print bit_mask($num_bits, $lsb); # 28, or 11100
     
         print bit_bin(255); # 11111111 (same as printf("%b", 255);)
-    
-          
 
 DESCRIPTION
 
@@ -113,6 +120,9 @@ FUNCTIONS
         $data
 
     Mandatory: Integer, the bit string you want to manipulate bits in.
+    Optionally, send in a reference to the scalar, and we'll work directly
+    on it instead of passing by value and getting the updated value
+    returned.
 
         $lsb
 
@@ -130,7 +140,8 @@ FUNCTIONS
     Mandatory: Integer, the value that you want to change the specified
     bits to. Easiest if you send in a binary string (eg: 0b1011 in Perl).
 
-    Return: Integer, the modified $data param.
+    Return: Integer, the modified $data param if <C$data> is passed in by
+    value, or 0 if passed in by reference.
 
     Example:
 
@@ -160,6 +171,9 @@ FUNCTIONS
         $data
 
     Mandatory: Integer, the bit string you want to manipulate bits in.
+    Optionally, send in a reference to the scalar, and we'll work directly
+    on it instead of passing by value and getting the updated value
+    returned.
 
         $lsb
 
@@ -173,7 +187,8 @@ FUNCTIONS
     starting from the $lsb bit, and clearing the number of bits to the
     left.
 
-    Returns the modified bit string.
+    Return: Integer, the modified $data param if <C$data> is passed in by
+    value, or 0 if passed in by reference.
 
  bit_toggle
 
@@ -184,13 +199,17 @@ FUNCTIONS
         $data
 
     Mandatory: Integer, the number/bit string to toggle a bit in.
+    Optionally, send in a reference to the scalar, and we'll work directly
+    on it instead of passing by value and getting the updated value
+    returned.
 
         $bit
 
     Mandatory: Integer, the bit number counting from the right-most (LSB)
     bit starting from 0.
 
-    Return: Integer, the modified $data param.
+    Return: Integer, the modified $data param if <C$data> is passed in by
+    value, or 0 if passed in by reference.
 
  bit_on
 
@@ -201,13 +220,17 @@ FUNCTIONS
         $data
 
     Mandatory: Integer, the number/bit string to toggle a bit in.
+    Optionally, send in a reference to the scalar, and we'll work directly
+    on it instead of passing by value and getting the updated value
+    returned.
 
         $bit
 
     Mandatory: Integer, the bit number counting from the right-most (LSB)
     bit starting from 0.
 
-    Return: Integer, the modified $data param.
+    Return: Integer, the modified $data param if <C$data> is passed in by
+    value, or 0 if passed in by reference.
 
  bit_off
 
@@ -218,13 +241,17 @@ FUNCTIONS
         $data
 
     Mandatory: Integer, the number/bit string to toggle a bit in.
+    Optionally, send in a reference to the scalar, and we'll work directly
+    on it instead of passing by value and getting the updated value
+    returned.
 
         $bit
 
     Mandatory: Integer, the bit number counting from the right-most (LSB)
     bit starting from 0.
 
-    Return: Integer, the modified $data param.
+    Return: Integer, the modified $data param if <C$data> is passed in by
+    value, or 0 if passed in by reference.
 
  bit_mask
 
