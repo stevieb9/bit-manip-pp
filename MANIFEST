@@ -1,3 +1,4 @@
+appveyor.yml
 Changes
 examples/xs_vs_pp.pl
 lib/Bit/Manip/PP.pm
