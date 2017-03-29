@@ -1,5 +1,9 @@
 Revision history for Bit-Manip-PP
 
+1.06    2017-03-28
+        - no functional or doc changes
+        - missed doing an s/x/y/g for the Appveyor update in 1.05
+
 1.05    2017-03-28
         - no functional or documentation changes
         - implemented integration with Appveyor CI (Windows testing)
