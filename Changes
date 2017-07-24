@@ -1,6 +1,6 @@
 Revision history for Bit-Manip-PP
 
-1.07 UNREL
+1.07    2017-07-24
         - added bit_tog() as an alias to bit_toggle()
         - changed lsb >= msb in _check_lsb(), we now allow equal which can be
           used to select an individual bit
