@@ -35,6 +35,13 @@ is bin(bit_clr(255, 3, 2)), '11100111', "255, 3, 2 ok";
 is bin(bit_clr(255, 3, 3)), '11000111', "255, 3, 3 ok";
 is bin(bit_clr(255, 7, 1)), '1111111', "255, 7, 1 ok";
 
+# as scalar ref
+
+my $test_data_ref = 255;
+
+bit_clr(\$test_data_ref, 7, 1);
+is bin($test_data_ref), '1111111', "255, 7, 1 ok as scalar ref";
+
 sub bin {
     return sprintf "%b", $_[0];
 }

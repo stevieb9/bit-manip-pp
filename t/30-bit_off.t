@@ -8,7 +8,7 @@ use Test::More;
 
     my $d = 255;
     my @v = qw(
-        254 253 251 247 
+        254 253 251 247
         239 223 191 127
     );
 
@@ -30,6 +30,22 @@ use Test::More;
     for (0..15){
         my $x = bit_off($d, $_);
         is $x, $v[$_], "turning off bit $_ on $d ok";
+    }
+}
+
+# as reference
+
+{   # 255
+
+    my @v = qw(
+        254 253 251 247
+        239 223 191 127
+    );
+
+    for (0..7){
+        my $d = 255;
+        bit_off(\$d, $_);
+        is $d, $v[$_], "turning off bit $_ on $d ok";
     }
 }
 

@@ -48,58 +48,33 @@ is bin(bit_set(32768, 7, 3, 0b111)), '1000001110000000', "32768, 7, 0b111 ok";
 
 is bin(bit_set(7, 0, 3, 0b011)), '11', "leading zero set ok";
 
+# bad number of params
+
+my $ok = eval {
+    bit_set(1, 2, 3);
+    1;
+};
+
+is $ok, undef, "dies if we don't have enough params";
+like $@, qr/requires four params/, "...and error message is ok";
+
+$ok = eval {
+    bit_set(1, 2, 3, 4, 5);
+    1;
+};
+
+is $ok, undef, "dies with too many params";
+like $@, qr/requires four params/, "...and error message is ok";
+
+# scalar reference
+
+my $test_data_ref = 32768;
+
+bit_set(\$test_data_ref, 7, 3, 0b111);
+is bin($test_data_ref), '1000001110000000', "32768, 7, 0b111 ok as scalar ref";
+
 sub bin {
     return sprintf "%b", $_[0];
 }
-
-done_testing();
-
-__END__
-$x = bit_set(128, 0, 1);
-printf("%d: %b\n", $x, $x);
-
-$x = bit_set(128, 1, 1);
-printf("%d: %b\n", $x, $x);
-
-$x = bit_set(128, 2, 1);
-printf("%d: %b\n", $x, $x);
-
-$x = bit_set(128, 3, 1);
-printf("%d: %b\n", $x, $x);
-
-$x = bit_set(128, 4, 1);
-printf("%d: %b\n", $x, $x);
-
-$x = bit_set(128, 5, 1);
-printf("%d: %b\n", $x, $x);
-
-
-$x = bit_set(128, 2, 0);
-printf("%d: %b\n", $x, $x);
-
-$x = bit_set(128, 2, 1);
-printf("%d: %b\n", $x, $x);
-
-$x = bit_set(128, 2, 2);
-printf("%d: %b\n", $x, $x);
-
-$x = bit_set(128, 2, 3);
-printf("%d: %b\n", $x, $x);
-
-$x = bit_set(128, 3, 0b11);
-printf("%d: %b\n", $x, $x);
-
-$x = bit_set(128, 3, 0b111);
-printf("%d: %b\n", $x, $x);
-
-$x = bit_set(255, 0, 0b0);
-printf("%d: %b\n", $x, $x);
-
-__END__
-
-is bit_set(128, 0, 1), 129, "128, 0, 1 ok";
-is bit_set(2, 0, 1), 3, "2, 0, 1 ok";
-
-is bit_set(0, 5, 0b10), 256, "255, 0, 1 ok";
 
 done_testing();
