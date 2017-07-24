@@ -141,5 +141,23 @@ use Test::More;
         # printf("%d: %b\n", $x, $x);
     }
 }
+
+# as a reference
+
+{   # tog() 255
+
+    my @v = qw(
+        254 253 251 247
+        239 223 191 127
+    );
+
+    for (0..7){
+        my $d = 255;
+        bit_tog(\$d, $_);
+        is $d, $v[$_], "toggling bit $_ on $d ok as reference";
+        # printf("%d: %b\n", $x, $x);
+    }
+}
+
 done_testing();
 
