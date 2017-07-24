@@ -185,8 +185,10 @@ Bit::Manip::PP - Pure Perl functions to simplify bit string manipulation
     my $b;    # bit string
     $b = 128; # 10000000
 
-    $b = bit_toggle($b, 4); # 10010000
-    $b = bit_toggle($b, 4); # 10000000
+    # toggle a bit
+
+    $b = bit_tog($b, 4); # 10010000
+    $b = bit_tog($b, 4); # 10000000
 
     bit_toggle(\$b, 4); # same as above, but with a reference
 
