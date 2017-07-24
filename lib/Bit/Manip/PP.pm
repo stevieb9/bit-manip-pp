@@ -180,20 +180,21 @@ Bit::Manip::PP - Pure Perl functions to simplify bit string manipulation
 
 =head1 SYNOPSIS
 
-    use Bit::Manip qw(:all);
+    use Bit::Manip::PP qw(:all);
 
     my $b;    # bit string
     $b = 128; # 10000000
 
-    # toggle a bit off and on
+    $b = bit_toggle($b, 4); # 10010000
+    $b = bit_toggle($b, 4); # 10000000
 
-    $b = bit_tog($b, 4); # 10010000
-    $b = bit_tog($b, 4); # 10000000
-
-    # turn a bit off, then back on
+    bit_toggle(\$b, 4); # same as above, but with a reference
 
     $b = bit_off($b, 7);    # 0
     $b = bit_on($b, 7);     # 10000000
+
+    bit_off(\$b, 7);
+    bit_on(\$b, 7);
 
     # get the value of a range of bits...
     # in this case, we'll print the value of bits 4-3
@@ -206,9 +207,10 @@ Bit::Manip::PP - Pure Perl functions to simplify bit string manipulation
     # let's set bits 4-2 to binary 101
 
     $b = 0b10000000;
-    my $num_bits = 3; # 0b101 in the call is 3 bits
 
-    $b = bit_set($b, 2, $num_bits, 0b101); # 10010100
+    $b = bit_set($b, 2, 3, 0b101); # 10010100
+
+    bit_set(\$b, 2, 3, 0b101); # reference
 
     # clear some bits
 
@@ -218,6 +220,8 @@ Bit::Manip::PP - Pure Perl functions to simplify bit string manipulation
     $lsb = 3;
 
     $b = bit_clr($b, $lsb, $num_bits); # 11000111
+
+    bit_clr(\$b, $lsb, $num_bits); # reference
 
     # helpers
 
