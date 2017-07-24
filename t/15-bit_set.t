@@ -4,11 +4,12 @@ use strict;
 use Bit::Manip::PP qw(:all);
 use Test::More;
 
+is bin(bit_set(8, 0, 1, 0b1)), '1001', "8, 0, 1 ok";
 is bin(bit_set(8, 1, 1, 0b1)), '1010', "8, 1, 1 ok";
 is bin(bit_set(8, 2, 1, 0b1)), '1100', "8, 2, 1 ok";
 
 is bin(bit_set(8, 0, 3, 0b111)), '1111', "8, 0, 0b111 ok";
-is bin(bit_set(8, 1, 3, 0b011)), '110', "8, 1, 0b11 ok";
+is bin(bit_set(8, 1, 3, 0b011)), '110', "8, 1, 0b011 ok";
 is bin(bit_set(8, 2, 1, 0b1)), '1100', "8, 2, 0b01 ok";
 is bin(bit_set(8, 2, 3, 0b101)), '10100', "8, 2, 0b01 ok";
 
@@ -47,57 +48,58 @@ is bin(bit_set(32768, 7, 3, 0b111)), '1000001110000000', "32768, 7, 0b111 ok";
 
 is bin(bit_set(7, 0, 3, 0b011)), '11', "leading zero set ok";
 
-{ # bad number of params
-
-    my $ok;
-
-    $ok = eval {bit_set(7, 0, 0, 0, 0); 1; };
-    is $ok, undef, "bit_set() with more than 4 params dies";
-    like $@, qr/requires four params/, "...with ok error";
-
-    $ok = undef;
-
-    $ok = eval {bit_set(7, 0, 0); 1; };
-    is $ok, undef, "bit_set() with less than 4 params dies";
-    like $@, qr/requires four params/, "...with ok error";
-}
-
 sub bin {
     return sprintf "%b", $_[0];
 }
 
-{
-    # refs
-
-    my $d;
-
-    $d = 8;
-
-    bit_set(\$d, 1, 1, 0b1);
-    is bit_bin($d), '1010', "8, 1, 1 ref ok";
-
-    bit_set(\$d, 2, 1, 0b1);
-    is bit_bin($d), '1110', "8, 2, 1 ref ok";
-
-    bit_set(\$d, 0, 1, 0b1);
-    is bit_bin($d), '1111', "8, 0, 1 ref ok";
-
-    $d = 65536;
-
-    my @ret = qw (
-        65537 65539 65543 65551 65567 65599
-        65663 65791 66047 66559 67583 69631
-        73727 81919 98303 131071
-        );
-
-    my $c = 0;
-
-    for (0 .. 15) {
-        bit_set(\$d, $_, 1, 0b1);
-        is $d, $ret[$c], "65536, $_, 1 ref ok";
-        $c++;
-    }
-}
-
 done_testing();
 
+__END__
+$x = bit_set(128, 0, 1);
+printf("%d: %b\n", $x, $x);
+
+$x = bit_set(128, 1, 1);
+printf("%d: %b\n", $x, $x);
+
+$x = bit_set(128, 2, 1);
+printf("%d: %b\n", $x, $x);
+
+$x = bit_set(128, 3, 1);
+printf("%d: %b\n", $x, $x);
+
+$x = bit_set(128, 4, 1);
+printf("%d: %b\n", $x, $x);
+
+$x = bit_set(128, 5, 1);
+printf("%d: %b\n", $x, $x);
+
+
+$x = bit_set(128, 2, 0);
+printf("%d: %b\n", $x, $x);
+
+$x = bit_set(128, 2, 1);
+printf("%d: %b\n", $x, $x);
+
+$x = bit_set(128, 2, 2);
+printf("%d: %b\n", $x, $x);
+
+$x = bit_set(128, 2, 3);
+printf("%d: %b\n", $x, $x);
+
+$x = bit_set(128, 3, 0b11);
+printf("%d: %b\n", $x, $x);
+
+$x = bit_set(128, 3, 0b111);
+printf("%d: %b\n", $x, $x);
+
+$x = bit_set(255, 0, 0b0);
+printf("%d: %b\n", $x, $x);
+
+__END__
+
+is bit_set(128, 0, 1), 129, "128, 0, 1 ok";
+is bit_set(2, 0, 1), 3, "2, 0, 1 ok";
+
+is bit_set(0, 5, 0b10), 256, "255, 0, 1 ok";
+
+done_testing();
